@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Читай. Знай. Помни. — Книжная выставка к 9 мая</title>
+<script type="text/javascript" nonce="3834e7f0849944b88f214714efa" src="//injections.adguard.org?ts=1777451530853&amp;type=content-script&amp;dmn=claude.ai&amp;url=https%3A%2F%2Fclaude.ai%2Fdesign%2Fv1%2Fdesign%2Fprojects%2F019dd29b-e4f3-764c-af64-b46d1bf8b765%2Fdownload%3Fpath%3Dexhibition.html&amp;app=browser.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="3834e7f0849944b88f214714efa" src="//injections.adguard.org?ts=1777451530853&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --red: #cc1111;
+    --deep-red: #7a0a0a;
+    --bg: #1a0a0a;
+    --bg2: #1f0e0e;
+    --bg3: #160808;
+    --cream: #e8dcc8;
+    --gray: #888;
+    --light: #d4c9b8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'PT Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* ─── НАВИГАЦИЯ ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: linear-gradient(to bottom, rgba(10,6,6,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--red); }
+
+  /* ─── ПРОГРЕСС-БАР ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--red);
+    z-index: 1001;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px var(--red);
+  }
+
+  /* ─── ГЕРОЙ / ПРОЛОГ ─── */
+  #prologue {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:#180a0a;
+  }
+
+  .prologue-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 60%, #2a0808 0%, #0a0606 70%);
+  }
+
+  .prologue-date {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .prologue-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 160px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.88;
+    text-align: center;
+    color: #fff;
+    letter-spacing: -2px;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .prologue-title span { color: var(--red); }
+
+  .prologue-sub {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--light);
+    opacity: 0;
+    margin-top: 32px;
+    text-align: center;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .prologue-scroll {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards;
+  }
+
+  .prologue-scroll span {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+    animation: pulse 1.5s infinite;
+  }
+
+  /* Stars decoration */
+  .stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle var(--d, 3s) var(--delay, 0s) infinite;
+  }
+
+  /* Red line accent */
+  .red-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    box-shadow: 0 0 20px var(--red);
+  }
+
+  /* ─── СЕКЦИИ ГЛАВ ─── */
+  .chapter {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Chapter header band */
+  .chapter-band {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+  }
+
+  /* ─── ГЛАВА 1 — ПРОЛОГ ВОЙНЫ ─── */
+  #ch0 { background: var(--bg2); }
+
+  .ch0-inner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .ch0-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px 80px;
+    background: var(--bg2);
+    position: relative;
+    z-index: 2;
+  }
+
+  .chapter-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .chapter-year {
+    font-family: 'Oswald', sans-serif;
+    font-size: 200px;
+    font-weight: 700;
+    line-height: 0.85;
+    color: var(--red);
+    opacity: 0.15;
+    position: absolute;
+    top: 80px;
+    left: 48px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .chapter-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 72px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .chapter-title em { color: var(--red); font-style: normal; }
+
+  .chapter-date {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--red);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .chapter-text {
+    font-family: 'PT Serif', serif;
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--light);
+    opacity: 0.85;
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+  }
+
+  .chapter-quote {
+    margin-top: 32px;
+    padding-left: 20px;
+    border-left: 3px solid var(--red);
+    position: relative;
+    z-index: 1;
+  }
+
+  .chapter-quote p {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cream);
+  }
+
+  .chapter-quote cite {
+    display: block;
+    margin-top: 8px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  /* ─── PARALLAX IMAGE PANEL ─── */
+  .img-panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+  }
+
+  .img-panel img.bg-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.1) brightness(0.6);
+  }
+
+  .img-panel .soldiers-layer {
+    position: absolute;
+    bottom: 0;
+    left: -5%;
+    width: 110%;
+    height: auto;
+    object-fit: contain;
+    object-position: bottom;
+    filter: grayscale(100%) contrast(1.05);
+    mix-blend-mode: multiply;
+  }
+
+  /* Big year text on image */
+  .img-year {
+    position: absolute;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 280px;
+    color: var(--red);
+    opacity: 0.9;
+    line-height: 1;
+    letter-spacing: -4px;
+    text-shadow: 0 0 40px rgba(200,10,10,0.4);
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .img-year.bottom-right {
+    bottom: 40px;
+    right: 40px;
+  }
+
+  .img-year.top-left {
+    top: 100px;
+    left: 32px;
+  }
+
+  /* Overlay gradient on image panel */
+  .img-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(26,15,15,0.6) 0%, transparent 40%),
+                linear-gradient(to top, rgba(10,6,6,0.8) 0%, transparent 30%);
+    pointer-events: none;
+  }
+
+  /* ─── БРЕСТСКАЯ КРЕПОСТЬ — ГОРИЗОНТАЛЬНЫЙ МАКЕТ ─── */
+  #ch1 { background:#1a0c0c; }
+
+  .brest-scene {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Верхняя горизонтальная панель с фото и солдатами */
+  .brest-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Тёмный оверлей */
+  .brest-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(13,11,11,0.55) 0%, rgba(13,11,11,0.1) 40%, rgba(13,11,11,0.7) 100%),
+      linear-gradient(to right, rgba(13,11,11,0.5) 0%, transparent 50%, rgba(13,11,11,0.3) 100%);
+    z-index: 2;
+  }
+
+  .brest-text-behind {
+    position: absolute;
+    bottom: 52%;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    pointer-events: none;
+    padding: 0 60px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(90px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .brest-main-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 170px;
+    text-transform: uppercase;
+    color: var(--red);
+    line-height: 0.88;
+    letter-spacing: -3px;
+    text-shadow: 0 0 80px rgba(180,10,10,0.6);
+    opacity: 0;
+    transform: translateY(90px);
+  }
+
+  .brest-main-title.risen {
+    animation: riseUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .brest-year-side {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 220px;
+    color: #fff;
+    opacity: 0.06;
+    line-height: 1;
+    letter-spacing: -6px;
+    align-self: center;
+  }
+
+  /* Фон: поле боя */
+  .brest-battlefield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    filter: grayscale(100%) contrast(1.2) brightness(0.45);
+    z-index: 1;
+  }
+
+  /* Солдаты — точно как фон, прозрачные пиксели пропускают текст */
+  .brest-soldiers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    filter: grayscale(100%) contrast(1.15) brightness(0.88);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  /* Текст ПОВЕРХ солдат */
+  .brest-text-front {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    z-index: 5;
+    text-align: right;
+    pointer-events: none;
+  }
+
+  .brest-chapter-label {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .brest-date-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    color: var(--light);
+    opacity: 0.7;
+  }
+
+  /* Нижняя панель — одинаковая высота колонок */
+  .brest-bottom {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    flex: 1;
+    min-height: 380px;
+    background:#1a0c0c;
+  }
+
+  .brest-fortress-thumb {
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+  }
+
+  .brest-fortress-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: grayscale(100%) contrast(1.1) brightness(0.5);
+  }
+
+  .brest-fortress-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 55%, #0d0b0b 100%);
+  }
+
+  .brest-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 56px 72px 56px 48px;
+    background:#1a0c0c;
+    position: relative;
+  }
+
+  /* ─── PLACEHOLDER SECTIONS ─── */
+  .chapter-placeholder {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .placeholder-inner {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .placeholder-year-bg {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 360px;
+    color: #fff;
+    opacity: 0.03;
+    line-height: 1;
+    letter-spacing: -8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .placeholder-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .placeholder-chapter-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 96px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+    max-width: 900px;
+    margin: 0 auto 20px;
+  }
+
+  .placeholder-chapter-title em { color: var(--red); font-style: normal; }
+
+  .placeholder-sub {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--light);
+    opacity: 0.6;
+  }
+
+  .placeholder-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--red);
+    margin: 24px auto;
+  }
+
+  /* "Скоро" badge */
+  .soon-badge {
+    display: inline-block;
+    margin-top: 32px;
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    opacity: 0.6;
+  }
+
+  /* Chapter divider */
+  .chapter-divider {
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--red) 30%, var(--red) 70%, transparent);
+    opacity: 0.4;
+  }
+
+  /* ─── КНИЖНЫЕ КАРТОЧКИ ─── */
+  .books-section {
+    padding: 60px 64px;
+    background: var(--bg3);
+  }
+
+  .books-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .books-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .book-card {
+    cursor: pointer;
+    position: relative;
+    group: true;
+    transition: transform 0.3s;
+  }
+
+  .book-card:hover { transform: translateY(-6px); }
+
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: linear-gradient(135deg, #2a1515, #1a0a0a);
+    border: 1px solid rgba(204,17,17,0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .book-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .book-cover-placeholder {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 13px;
+    text-align: center;
+    color: var(--gray);
+    position: relative;
+    z-index: 1;
+  }
+
+  .book-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(204,17,17,0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .book-card:hover .book-hover-overlay { opacity: 1; }
+
+  .book-hover-text {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 8px 16px;
+  }
+
+  .book-meta {
+    padding: 12px 4px 4px;
+  }
+
+  .book-meta-title {
+    font-family: 'PT Serif', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .book-meta-author {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* ─── МОДАЛЬНОЕ ОКНО КНИГИ ─── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,3,3,0.92);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(6px);
+    padding: 40px;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-box {
+    background: #1a0f0f;
+    border: 1px solid rgba(204,17,17,0.25);
+    max-width: 780px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+  }
+
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+
+  .modal-cover {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    background:#1a0c0c;
+  }
+
+  .modal-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .modal-body {
+    padding: 48px 40px 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-close:hover { color: var(--red); }
+
+  .modal-genre {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  .modal-author {
+    font-family: 'PT Serif', serif;
+    font-size: 16px;
+    color: var(--light);
+    opacity: 0.75;
+    margin-bottom: 24px;
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: rgba(204,17,17,0.3);
+    margin-bottom: 24px;
+  }
+
+  .modal-desc {
+    font-family: 'PT Serif', serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--light);
+    opacity: 0.85;
+    margin-bottom: 24px;
+  }
+
+  .modal-quote {
+    padding: 16px 20px;
+    border-left: 3px solid var(--red);
+    background: rgba(204,17,17,0.05);
+    margin-bottom: 28px;
+  }
+
+  .modal-quote p {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--cream);
+  }
+
+  /* ─── ТАЙМЛАЙН ─── */
+  #timeline {
+    padding: 100px 64px;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-bg-year {
+    position: absolute;
+    font-family: 'Oswald', sans-serif;
+    font-size: 400px;
+    font-weight: 700;
+    color: #fff;
+    opacity: 0.02;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    letter-spacing: -12px;
+  }
+
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .timeline-track {
+    position: relative;
+    padding: 0 48px;
+  }
+
+  .timeline-line {
+    position: absolute;
+    top: 20px;
+    left: 48px;
+    right: 48px;
+    height: 1px;
+    background: rgba(204,17,17,0.3);
+  }
+
+  .timeline-events {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    flex: 1;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 2px solid #1a0f0f;
+    margin-bottom: 16px;
+    box-shadow: 0 0 8px var(--red);
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline-event:hover .timeline-dot { transform: scale(1.5); }
+
+  .timeline-event-year {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .timeline-event-date {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin-top: 2px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-event-label {
+    font-family: 'PT Serif', serif;
+    font-size: 12px;
+    color: var(--light);
+    opacity: 0.7;
+    text-align: center;
+    max-width: 100px;
+    line-height: 1.4;
+  }
+
+  /* ─── ЭПИЛОГ ─── */
+  #epilogue {
+    min-height: 100vh;
+    background:#140808;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 64px;
+  }
+
+  .epilogue-star {
+    font-size: 48px;
+    color: var(--red);
+    margin-bottom: 32px;
+    animation: pulse 2s infinite;
+  }
+
+  .epilogue-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 180px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+    opacity: 0.15;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .epilogue-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .epilogue-sub {
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--light);
+    opacity: 0.7;
+    max-width: 600px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+  }
+
+  .epilogue-stats {
+    display: flex;
+    gap: 80px;
+    margin-top: 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 8px;
+  }
+
+  /* ─── АНИМАЦИИ ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: var(--max-op, 0.4); }
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Alternating chapter backgrounds */
+  .bg-alt1 { background:#1e1010; }
+  .bg-alt2 { background:#1a0c0c; }
+
+  /* Red texture stripe accent */
+  .stripe-accent {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--red);
+    box-shadow: 2px 0 20px rgba(204,17,17,0.3);
+  }
+
+  /* Horizontal red line */
+  .h-red-line {
+    height: 2px;
+    background: var(--red);
+    margin: 40px 0;
+    opacity: 0.4;
+  }
+
+  /* Section label */
+  .section-label {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background:#180a0a; }
+  ::-webkit-scrollbar-thumb { background: var(--red); }
+
+  /* ══════════════════════════════════════
+     МОБИЛЬНАЯ АДАПТАЦИЯ
+  ══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ─── Навигация ─── */
+    nav { padding: 12px 16px; }
+    .nav-links { display: none; }
+
+    /* ─── Пролог ─── */
+    .prologue-title { font-size: 52px !important; letter-spacing: -1px; }
+    .prologue-sub { font-size: 14px; padding: 0 16px; }
+
+    /* ─── Глава 0 ─── */
+    .ch0-inner { grid-template-columns: 1fr !important; }
+    .ch0-text { padding: 80px 16px 36px !important; }
+    .chapter-year { font-size: 72px !important; top: 56px; left: 8px; }
+    .chapter-title { font-size: 30px !important; }
+    .chapter-text { font-size: 14px !important; max-width: 100% !important; }
+    .img-panel { min-height: 200px; }
+
+    /* ─── Брест ─── */
+    .brest-hero { height: auto !important; min-height: 56vw; }
+    .brest-main-title { font-size: 36px !important; letter-spacing: -1px; }
+    .brest-year-side { display: none !important; }
+    .brest-text-behind { padding: 0 16px; bottom: 68%; }
+    .brest-bottom { grid-template-columns: 1fr !important; }
+    .brest-fortress-thumb { min-height: 160px; display: none; }
+    .brest-right { padding: 24px 16px !important; }
+
+    /* ─── Книги ─── */
+    .books-section { padding: 28px 16px !important; }
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      align-items: start !important;
+    }
+    .book-cover { aspect-ratio: 2/3 !important; }
+    .book-meta-title { font-size: 12px; }
+    .book-meta-author { font-size: 11px; }
+
+    /* ─── Таймлайн ─── */
+    #timeline { padding: 40px 0 !important; overflow-x: auto; }
+    .timeline-track { padding: 0 12px; min-width: 520px; }
+    .timeline-header { padding: 0 16px; margin-bottom: 40px; }
+
+    /* ─── Эпилог ─── */
+    #epilogue { padding: 56px 16px !important; }
+    .epilogue-title { font-size: 36px !important; }
+    .epilogue-sub { font-size: 14px !important; max-width: 100% !important; }
+    .epilogue-stats { gap: 20px; margin-top: 36px; flex-wrap: wrap; justify-content: center; }
+    .stat-num { font-size: 32px !important; }
+
+    /* ─── Модалка ─── */
+    .modal-overlay { padding: 8px; align-items: flex-end; }
+    .modal-box { grid-template-columns: 1fr !important; max-height: 90vh; }
+    .modal-cover { min-height: 180px !important; max-height: 180px !important; }
+    .modal-body { padding: 16px 14px !important; }
+    .modal-title { font-size: 20px !important; }
+    .modal-desc { font-size: 13px !important; }
+
+    /* ─── Блок Высоцкого ─── */
+    #vysotsky-block { height: auto !important; grid-template-columns: 1fr !important; }
+    #vysotsky-block > div:first-child { padding: 64px 16px 28px !important; }
+    #vysotsky-block > div:last-child { height: 56vw !important; min-height: 200px !important; }
+
+    /* ─── ИНЛАЙН СЕКЦИИ: все сетки → одна колонка ─── */
+    [style*="display:grid"],
+    [style*="display: grid"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* ─── ИНЛАЙН СЕКЦИИ: шрифты заголовков ─── */
+    [style*="font-size: 160px"],
+    [style*="font-size:160px"],
+    [style*="font-size: 130px"],
+    [style*="font-size:130px"],
+    [style*="font-size: 148px"],
+    [style*="font-size:148px"],
+    [style*="font-size: 96px"],
+    [style*="font-size:96px"],
+    [style*="font-size: 80px"],
+    [style*="font-size:80px"],
+    [style*="font-size: 72px"],
+    [style*="font-size:72px"] {
+      font-size: 32px !important;
+      letter-spacing: -0.5px !important;
+      line-height: 1.1 !important;
+    }
+
+    /* ─── ИНЛАЙН СЕКЦИИ: обёртки и паддинги ─── */
+    [style*="padding:64px"],
+    [style*="padding: 64px"],
+    [style*="padding:80px"],
+    [style*="padding: 80px"],
+    [style*="padding:100px"],
+    [style*="padding: 100px"] {
+      padding: 28px 16px !important;
+    }
+
+    /* ─── Ограничение ширины текста в инлайн-колонках ─── */
+    [style*="max-width:480px"],
+    [style*="max-width: 480px"],
+    [style*="max-width:600px"],
+    [style*="max-width: 600px"] {
+      max-width: 100% !important;
+    }
+
+    /* ─── Hero высоты инлайн ─── */
+    [style*="height:100vh"],
+    [style*="height: 100vh"] {
+      height: auto !important;
+      min-height: 52vw !important;
+    }
+
+    /* ─── Скрыть декоративные цифры ─── */
+    [style*="opacity:0.04"],
+    [style*="opacity: 0.04"],
+    [style*="opacity:0.03"],
+    [style*="opacity: 0.03"],
+    [style*="opacity:0.06"],
+    [style*="opacity: 0.06"] { display: none !important; }
+
+    /* ─── Изображения в инлайн-секциях ─── */
+    [style*="height:300px"],
+    [style*="height: 300px"],
+    [style*="height:380px"],
+    [style*="height: 380px"] {
+      height: 180px !important;
+    }
+    /* ─── Автовысота изображений (карточка хлеба и подобные) ─── */
+    [style*="width:80%"],
+    [style*="width: 80%"] {
+      max-height: 220px !important;
+      width: auto !important;
+      max-width: 80% !important;
+      object-fit: contain !important;
+    }
+
+    /* ─── Шрифты текста в инлайн-секциях ─── */
+    [style*="font-size:16px"],
+    [style*="font-size: 16px"],
+    [style*="font-size:17px"],
+    [style*="font-size: 17px"],
+    [style*="font-size:18px"],
+    [style*="font-size: 18px"] {
+      font-size: 14px !important;
+      line-height: 1.65 !important;
+    }
+
+    /* ─── Заголовки h2/h3 инлайн ─── */
+    [style*="font-size:28px"],
+    [style*="font-size: 28px"],
+    [style*="font-size:36px"],
+    [style*="font-size: 36px"],
+    [style*="font-size:40px"],
+    [style*="font-size: 40px"] {
+      font-size: 22px !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">Читай · Знай · Помни</div>
+  <ul class="nav-links">
+    <li><a href="#prologue">1941</a></li>
+    <li><a href="#ch1">Брест</a></li>
+    <li><a href="#ch2">Москва</a></li>
+    <li><a href="#ch3">Сталинград</a></li>
+    <li><a href="#ch4">Тыл</a></li>
+    <li><a href="#ch5">Курск</a></li>
+    <li><a href="#ch6">Победа</a></li>
+  </ul>
+</nav>
+
+<!-- ─── ПРОЛОГ ─── -->
+<section id="prologue">
+  <div class="prologue-bg"></div>
+  <div class="stars" id="stars"></div>
+
+  <div class="prologue-date">22 июня 1941 — 9 мая 1945</div>
+  <h1 class="prologue-title">
+    Читай.<br><span>Знай.</span><br>Помни.
+  </h1>
+  <p class="prologue-sub">Интерактивная книжная выставка к 81 годовщине Победы</p>
+  <p style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(204,17,17,0.6);margin-top:12px;opacity:0;animation:fadeUp 1s 1.1s forwards;">Научно-техническая библиотека СибГИУ</p>
+
+
+    <span>Листать</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  <div class="red-line"></div>
+</section>
+
+<!-- ─── ТАЙМЛАЙН ─── -->
+<section id="timeline">
+  <div class="timeline-bg-year">1941</div>
+  <div class="timeline-header reveal">
+    <div class="section-label" style="justify-content:center">Хронология войны</div>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:40px;font-weight:700;text-transform:uppercase;color:#fff">
+      1941 — <span style="color:var(--red)">1945</span>
+    </h2>
+  </div>
+  <div class="timeline-track reveal">
+    <div class="timeline-line"></div>
+    <div class="timeline-events">
+      <div class="timeline-event" onclick="scrollTo('ch0')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1941</div>
+        <div class="timeline-event-date">22 июня</div>
+        <div class="timeline-event-label">Начало войны</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch1')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1941</div>
+        <div class="timeline-event-date">июнь–июль</div>
+        <div class="timeline-event-label">Брест. Отступление</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch2')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1941</div>
+        <div class="timeline-event-date">сент–дек</div>
+        <div class="timeline-event-label">Битва за Москву</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch3')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1942</div>
+        <div class="timeline-event-date">17 июля</div>
+        <div class="timeline-event-label">Сталинград</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch4')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1941–44</div>
+        <div class="timeline-event-date">блокада</div>
+        <div class="timeline-event-label">Тыл и Ленинград</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch5')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1943</div>
+        <div class="timeline-event-date">5 июля</div>
+        <div class="timeline-event-label">Курская дуга</div>
+      </div>
+      <div class="timeline-event" onclick="scrollTo('ch6')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-event-year">1945</div>
+        <div class="timeline-event-date">9 мая</div>
+        <div class="timeline-event-label">Победа</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 0: ПРОЛОГ ВОЙНЫ ─── -->
+<section id="ch0" class="chapter bg-alt2">
+  <div class="ch0-inner">
+    <div class="ch0-text">
+      <div class="stripe-accent"></div>
+      <div class="chapter-year">1941</div>
+      <div class="chapter-number reveal">Пролог · 22 июня 1941</div>
+      <h2 class="chapter-title reveal">
+        Война<br>началась<br><em>в воскресенье</em>
+      </h2>
+      <div class="chapter-date reveal">04:00 · Вся страна спала</div>
+      <p class="chapter-text reveal">
+        Немецкие войска без объявления войны перешли границу СССР. Тысячи городов и сёл были атакованы с воздуха. Миллионы людей проснулись в другой стране — стране войны.
+      </p>
+      <div class="chapter-quote reveal">
+        <p>«Наше дело правое. Враг будет разбит. Победа будет за нами.»</p>
+        <cite>Молотов · 22 июня 1941</cite>
+      </div>
+      <div class="reveal" style="margin-top:32px;">
+        <a href="https://rutube.ru/video/b8553f217ee3bdb85c293510b70c1942/?t=28" target="_blank"
+          style="display:inline-flex;align-items:center;gap:16px;padding:18px 28px;background:linear-gradient(135deg,rgba(122,10,10,0.35) 0%,rgba(204,17,17,0.15) 100%);border:1px solid rgba(204,17,17,0.5);text-decoration:none;transition:all 0.3s;"
+          onmouseover="this.style.background='linear-gradient(135deg,rgba(204,17,17,0.4) 0%,rgba(122,10,10,0.3) 100%)';this.style.borderColor='rgba(204,17,17,0.9)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(204,17,17,0.25)'"
+          onmouseout="this.style.background='linear-gradient(135deg,rgba(122,10,10,0.35) 0%,rgba(204,17,17,0.15) 100%)';this.style.borderColor='rgba(204,17,17,0.5)';this.style.transform='none';this.style.boxShadow='none'">
+          <span style="width:48px;height:48px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(204,17,17,0.4);">
+            <span style="font-size:18px;color:#fff;margin-left:3px;">▶</span>
+          </span>
+          <span style="display:flex;flex-direction:column;gap:3px;">
+            <span style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#fff;">Объявление о начале войны</span>
+            <span style="font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--light);opacity:0.65;">Юрий Левитан · 22 июня 1941 · Rutube</span>
+          </span>
+          <span style="margin-left:24px;font-family:'PT Sans',sans-serif;font-size:20px;color:rgba(204,17,17,0.7);">→</span>
+        </a>
+      </div>
+    </div><!-- /ch0-text -->
+    <div class="img-panel">
+      <img class="bg-photo" src="uploads/2026-04-28_13-25-56.png" alt="Даже не снилось. Утро 22 июня 1941 — Валентин Папко" style="filter: contrast(1.05) brightness(0.65);">
+      <div class="img-year bottom-right" style="opacity:0.08">1941</div>
+      <div style="position:absolute;bottom:20px;left:20px;z-index:3;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:rgba(232,220,200,0.45);letter-spacing:1px;">«Даже не снилось» · В. Папко</div>
+    </div>
+  </div>
+</section>
+
+<!-- ПАНОРАМА — переход к Брестской крепости -->
+<div style="position:relative;width:100%;height:380px;overflow:hidden;">
+  <img src="uploads/8k7dzkr0ugvmwbzzze2xori2kxxukn86.jpg" alt="Панорама начала войны"
+    style="width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:contrast(1.05) brightness(0.7);">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,11,11,0.6) 0%,transparent 30%,transparent 70%,rgba(13,11,11,0.8) 100%);"></div>
+  <div style="position:absolute;bottom:32px;right:48px;font-family:'PT Serif',serif;font-style:italic;font-size:12px;color:rgba(232,220,200,0.4);letter-spacing:1px;">Диорама · 22 июня 1941</div>
+</div>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 1: БРЕСТСКАЯ КРЕПОСТЬ ─── -->
+<section id="ch1" class="chapter">
+  <div class="brest-scene">
+
+    <!-- ГОРИЗОНТАЛЬНЫЙ ГЕРОЙ: иллюстрация + солдаты + текст слоями -->
+    <div class="brest-hero">
+      <!-- Фон: поле боя (2-е изображение) -->
+      <img class="brest-battlefield" src="uploads/project_1760132.jpg" alt="Поле боя">
+      <!-- Тёмный оверлей -->
+      <div class="brest-overlay" style="height: 6.8px"></div>
+
+      <!-- Метка и дата — ПОВЕРХ солдат (z:5) -->
+      <div class="brest-text-front">
+        <div class="brest-chapter-label">Глава I · 1941</div>
+        <div class="brest-date-label">22 июня — 23 июля</div>
+      </div>
+
+      <!-- Крупный заголовок — ЗА солдатами (z:3), солдаты перекрывают низ букв -->
+      <div class="brest-text-behind">
+        <h2 class="brest-main-title">Брестская<br>Крепость</h2>
+        <div class="brest-year-side">1941</div>
+      </div>
+
+      <!-- Солдаты (прозрачный PNG) — z:4, перекрывают низ заголовка -->
+      <img class="brest-soldiers" src="uploads/project_1760132.png" alt="Солдаты">
+    </div>
+
+    <!-- НИЖНЯЯ ПОЛОСА: крепость слева + текст справа -->
+    <div class="brest-bottom">
+      <div class="brest-fortress-thumb">
+        <img src="uploads/1_f20.webp" alt="Брестская крепость">
+      </div>
+
+      <div class="brest-right">
+        <div class="stripe-accent"></div>
+        <p class="chapter-text reveal">
+          Один из первых и самых жестоких боёв. Гарнизон крепости, застигнутый врасплох, держал оборону более месяца в полном окружении — без еды, воды и боеприпасов. На стенах остались надписи: <em>«Умираю, но не сдаюсь».</em>
+        </p>
+        <div class="chapter-quote reveal" style="margin-top:24px">
+          <p>«Нас было пятеро: Седов, Грутов И., Боголюб, Михайлов, Селиванов В. Мы приняли первый бой. Июль 1941.»</p>
+          <cite>Надпись на стене Брестской крепости</cite>
+        </div>
+
+        <!-- Книги этой главы -->
+        <div style="margin-top:40px" class="reveal">
+          <div class="books-label">Книги этой главы</div>
+          <div class="books-grid">
+            <div class="book-card" onclick="openModal('brest1')">
+              <div class="book-cover">
+                <img src="uploads/i (8).webp" alt="Брестская крепость" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+              </div>
+              <div class="book-meta">
+                <div class="book-meta-title">Брестская крепость</div>
+                <div class="book-meta-author">С. Смирнов</div>
+              </div>
+            </div>
+            <div class="book-card" onclick="openModal('brest2')">
+              <div class="book-cover">
+                <img src="uploads/i (9).webp" alt="В списках не значился" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+              </div>
+              <div class="book-meta">
+                <div class="book-meta-title">В списках не значился</div>
+                <div class="book-meta-author">Б. Васильев</div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 2: БИТВА ЗА МОСКВУ ─── -->
+<section id="ch2" class="chapter" style="background:#1b0d0d;">
+  <!-- ГЕРОЙ: Красная площадь с танками -->
+  <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
+    <!-- Фон: танки на Красной площади -->
+    <img src="uploads/i (11).webp" alt="Битва за Москву"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(100%) contrast(1.2) brightness(0.4);z-index:1;">
+    <!-- Тёмный оверлей -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(14,12,12,0.75) 0%,rgba(14,12,12,0.2) 55%,rgba(14,12,12,0.5) 100%),linear-gradient(to top,rgba(14,12,12,0.9) 0%,transparent 40%);z-index:2;"></div>
+
+    <!-- Текст: глава и дата — поверх всего -->
+    <div style="position:absolute;top:40px;left:60px;z-index:5;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Глава II · осень–зима 1941</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--light);opacity:0.6;">30 сентября 1941 — 20 апреля 1942</div>
+    </div>
+
+    <!-- Огромный заголовок — слева по центру -->
+    <div style="position:absolute;top:50%;left:60px;transform:translateY(-50%);z-index:4;">
+      <h2 style="font-family:'Oswald',sans-serif;font-weight:700;font-size: 160px;text-transform:uppercase;color:var(--red);line-height:0.88;letter-spacing:-3px;text-shadow:0 0 80px rgba(180,10,10,0.5);">
+        Битва<br>за<br><span style="color:#fff;">Москву</span>
+      </h2>
+      <div style="margin-top:24px;font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--light);opacity:0.7;max-width:420px;line-height:1.5;">
+        «Велика Россия, а отступать некуда — позади Москва»
+      </div>
+    </div>
+
+    <!-- Год сзади -->
+    <div style="position:absolute;bottom:20px;right:200px;font-family:'Oswald',sans-serif;font-weight:700;font-size: 260px;color:#fff;opacity:0.04;line-height:1;letter-spacing:-8px;z-index:2;pointer-events:none;">1941</div>
+  </div>
+
+  <!-- НИЖНЯЯ ЧАСТЬ: карта + текст + книги -->
+  <div style="display:grid;grid-template-columns:320px 1fr;min-height:420px;background:#1b0d0d;">
+    <!-- Карта -->
+    <div style="position:relative;overflow:hidden;">
+      <img src="uploads/image_2.webp" alt="Карта битвы за Москву"
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.5;filter:sepia(20%) contrast(1.1);">
+      <div style="position:absolute;inset:0;background:linear-gradient(to right,transparent 50%,#0e0c0c 100%);"></div>
+      <div style="position:absolute;bottom:16px;left:16px;font-family:'PT Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(204,17,17,0.5);">Карта операции · 1941</div>
+    </div>
+
+    <!-- Текст и книги -->
+    <div style="padding:52px 72px 52px 48px;position:relative;">
+      <div class="stripe-accent"></div>
+      <p class="chapter-text reveal" style="max-width:560px;">
+        Немецкая операция «Тайфун» началась 30 сентября 1941 года. Враг стоял в 30 км от Москвы. В декабре 1941-го советские войска перешли в контрнаступление — первая крупная победа Красной армии в войне.
+      </p>
+      <div class="chapter-quote reveal" style="margin-top:24px;">
+        <p>«Москва за нами, и отступать нам некуда.»</p>
+        <cite>Политрук Клочков · 16 ноября 1941</cite>
+      </div>
+
+      <!-- Книги -->
+      <div style="margin-top:40px" class="reveal">
+        <div class="books-label">Книги этой главы</div>
+        <div class="books-grid">
+          <div class="book-card" onclick="openModal('moscow1')">
+            <div class="book-cover">
+              <img src="uploads/orig (1).webp" alt="Волоколамское шоссе" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">Волоколамское шоссе</div>
+              <div class="book-meta-author">А. Бек</div>
+            </div>
+          </div>
+          <div class="book-card" onclick="openModal('moscow2')">
+            <div class="book-cover">
+              <img src="uploads/048050.jpg" alt="Зоя" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">Зоя</div>
+              <div class="book-meta-author">М. Алигер</div>
+            </div>
+          </div>
+          <div class="book-card" onclick="openModal('moscow3')">
+            <div class="book-cover">
+              <img src="uploads/orig (2).webp" alt="Повесть о настоящем человеке" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">Повесть о настоящем человеке</div>
+              <div class="book-meta-author">Б. Полевой</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Солдаты — декоративно -->
+      <img src="uploads/5_.webp" alt="Солдаты"
+        style="position:absolute;bottom:0;right:0;width:340px;height:auto;opacity:0.12;filter:grayscale(100%);pointer-events:none;">
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 3: СТАЛИНГРАД ─── -->
+<section id="ch3" class="chapter" style="background:#180b0b;">
+
+  <!-- ГЕРОЙ: солдаты с флагом на руинах -->
+  <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
+    <img src="uploads/pasted-1777365134096-0.png" alt="Сталинград"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:contrast(1.1) brightness(0.55);z-index:1;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(10,8,8,0.8) 0%,transparent 50%),linear-gradient(to top,rgba(10,8,8,0.95) 0%,transparent 40%);z-index:2;"></div>
+
+    <!-- Родина-мать убрана из героя -->
+
+    <!-- Метка -->
+    <div style="position:absolute;top:40px;left:60px;z-index:5;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Глава III · 1942–1943</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--light);opacity:0.6;">17 июля 1942 — 2 февраля 1943</div>
+    </div>
+
+    <!-- Заголовок -->
+    <div style="position:absolute;top:38%;left:60px;transform:translateY(-50%);z-index:4;">
+      <h2 style="font-family:'Oswald',sans-serif;font-weight:700;font-size: 130px;text-transform:uppercase;color:#fff;line-height:0.88;letter-spacing:-3px;">
+        <span style="color:var(--red);">Оборона</span><br>Сталин<span style="color: rgb(255, 255, 255)">града</span>
+      </h2>
+      <div style="margin-top:20px;font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--light);opacity:0.75;max-width:400px;line-height:1.6;">
+        200 дней и ночей.<br>Перелом Второй мировой.
+      </div>
+    </div>
+
+    <!-- Год -->
+    <div style="position:absolute;bottom:16px;left:60px;font-family:'Oswald',sans-serif;font-weight:700;font-size: 200px;color:#fff;opacity:0.04;line-height:1;letter-spacing:-6px;z-index:2;pointer-events:none;">1942</div>
+  </div>
+
+  <!-- ФОТОГАЛЕРЕЯ: два исторических снимка -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;height:360px;">
+    <div style="position:relative;overflow:hidden;">
+      <img src="uploads/1646827352906962_Vnhnif6n.jpg" alt="Фонтан детей в Сталинграде"
+        style="width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(100%) contrast(1.15) brightness(0.65);">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,8,0.85) 0%,transparent 50%);"></div>
+      <div style="position:absolute;bottom:20px;left:24px;right:24px;">
+        <div style="font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--light);opacity:0.75;line-height:1.5;">«Дети» — фонтан у вокзала. Символ мирной жизни среди руин. Фото Эммануила Евзерихина, 1942.</div>
+      </div>
+    </div>
+    <div style="position:relative;overflow:hidden;">
+      <img src="uploads/RIAN_archive_44732_Soviet_soldiers_attack_house.jpg" alt="Уличные бои в Сталинграде"
+        style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(100%) contrast(1.2) brightness(0.6);">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,8,0.85) 0%,transparent 50%);"></div>
+      <div style="position:absolute;bottom:20px;left:24px;right:24px;">
+        <div style="font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--light);opacity:0.75;line-height:1.5;">Штурм дома Павлова. Советские бойцы удерживали здание 58 дней — дольше, чем Франция сопротивлялась Германии.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- БЛОК: Родина-мать + текст + книги -->
+  <div style="display:grid;grid-template-columns:1fr 460px;min-height:480px;background:#180b0b;">
+
+    <!-- Текст и книги -->
+    <div style="padding:56px 56px 56px 60px;position:relative;">
+      <div class="stripe-accent"></div>
+      <p class="chapter-text reveal" style="max-width:560px;">
+        Сталинградская битва стала коренным переломом войны. Здесь впервые была окружена и уничтожена целая немецкая армия. 91 000 солдат противника сдались в плен, включая фельдмаршала Паулюса. После Сталинграда Германия не провела ни одной успешной стратегической наступательной операции.
+      </p>
+      <div class="chapter-quote reveal" style="margin-top:24px;">
+        <p>«За Волгой для нас земли нет.»</p>
+        <cite>Василий Зайцев · снайпер, герой Сталинграда</cite>
+      </div>
+
+      <!-- Книги -->
+      <div style="margin-top:40px" class="reveal">
+        <div class="books-label">Книги этой главы</div>
+        <div class="books-grid">
+          <div class="book-card" onclick="openModal('stalingrad1')">
+            <div class="book-cover">
+              <img src="uploads/orig (3).webp" alt="Жизнь и судьба" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">Жизнь и судьба</div>
+              <div class="book-meta-author">В. Гроссман</div>
+            </div>
+          </div>
+          <div class="book-card" onclick="openModal('stalingrad2')">
+            <div class="book-cover">
+              <img src="uploads/cover.jpg" alt="Горячий снег" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">Горячий снег</div>
+              <div class="book-meta-author">Ю. Бондарев</div>
+            </div>
+          </div>
+          <div class="book-card" onclick="openModal('stalingrad3')">
+            <div class="book-cover">
+              <img src="uploads/i (12).webp" alt="В окопах Сталинграда" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+            </div>
+            <div class="book-meta">
+              <div class="book-meta-title">В окопах Сталинграда</div>
+              <div class="book-meta-author">В. Некрасов</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок: Родина-мать -->
+    <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#120808,#0a0606);display:flex;flex-direction:column;justify-content:flex-end;padding:48px 40px;">
+      <img src="uploads/reproduction__statue_motherland_calls_001 (1).png" alt="Родина-мать"
+        style="position:absolute;top:-5%;right:-5%;height:105%;width:auto;filter:grayscale(100%) contrast(1.05) brightness(0.4);opacity:0.5;pointer-events:none;">
+      <div style="position:relative;z-index:2;">
+        <div style="font-family:'PT Sans',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px;">Символ Сталинграда</div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1.05;margin-bottom:16px;">«Родина-мать<br>зовёт!»</h3>
+        <p style="font-family:'PT Serif',serif;font-size:14px;line-height:1.7;color:var(--light);opacity:0.8;">
+          Монумент на Мамаевом кургане в Волгограде. Высота — 85 метров вместе с мечом. Создан скульптором Вучетичем в 1967 году. До 1989 года — самая высокая статуя в мире. Мамаев курган был эпицентром боёв: здесь погибли десятки тысяч солдат с обеих сторон.
+        </p>
+        <div style="margin-top:16px;height:1px;background:rgba(204,17,17,0.3);"></div>
+        <div style="margin-top:12px;font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(204,17,17,0.6);">Е. Вучетич · 1967 · Волгоград</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 4: ТЫЛ И БЛОКАДА ─── -->
+<section id="ch4" class="chapter" style="background:#180b0b;">
+
+  <!-- ГЕРОЙ: жители Ленинграда после бомбёжки -->
+  <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
+    <img src="uploads/600px-RIAN_archive_2153_After_bombing.jpg" alt="Ленинград в блокаде"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(100%) contrast(1.15) brightness(0.45);z-index:1;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(24,11,11,0.85) 0%,rgba(24,11,11,0.3) 60%),linear-gradient(to top,rgba(24,11,11,0.95) 0%,transparent 45%);z-index:2;"></div>
+
+    <!-- Метка -->
+    <div style="position:absolute;top:40px;left:60px;z-index:5;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Глава IV · 1941–1944</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--light);opacity:0.6;">872 дня в кольце</div>
+    </div>
+
+    <!-- Заголовок -->
+    <div style="position:absolute;top:42%;left:60px;transform:translateY(-50%);z-index:4;">
+      <h2 style="font-family:'Oswald',sans-serif;font-weight:700;font-size: 130px;text-transform:uppercase;color:#fff;line-height:0.88;letter-spacing:-3px;">
+        <span style="color:var(--red);">Тыл.</span><br>Блокада.<br><span style="color:var(--red);">Стойкость.</span>
+      </h2>
+      <div style="margin-top:20px;font-family:'PT Serif',serif;font-style:italic;font-size:17px;color:var(--light);opacity:0.75;max-width:420px;line-height:1.6;">
+        Пока одни воевали на фронте —<br>другие ковали победу в тылу.
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:16px;left:60px;font-family:'Oswald',sans-serif;font-weight:700;font-size: 200px;color:#fff;opacity:0.04;line-height:1;letter-spacing:-6px;z-index:2;pointer-events:none;">1942</div>
+  </div>
+
+  <!-- ─── БЛОКАДА ЛЕНИНГРАДА ─── -->
+  <div style="background:#160909;padding:64px 60px 48px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:40px;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);">Блокада Ленинграда</div>
+      <div style="flex:1;height:1px;background:rgba(204,17,17,0.2);"></div>
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(204,17,17,0.4);">8 сентября 1941 — 27 января 1944</div>
+    </div>
+
+    <!-- Три фото + подробный текст — равномерно распределены -->
+
+    <!-- Блок 1: фото + текст про начало блокады -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;align-items:center;">
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/599px-RIAN_archive_5634_Antiaircrafters_guarding_the_sky_of_Leningrad.jpg" alt="Зенитки у Исаакия"
+          style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(1.15) brightness(0.55);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.85) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Зенитные орудия у Исаакиевского собора. Ленинград, 1941.</div>
+      </div>
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">Начало блокады</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          8 сентября 1941 года немецкие войска замкнули кольцо вокруг Ленинграда. Три миллиона жителей оказались отрезаны от Большой земли. Начались бомбардировки, артиллерийские обстрелы, пожары. В первые же дни сгорели Бадаевские продовольственные склады — главный запас продовольствия города.
+        </p>
+      </div>
+    </div>
+
+    <!-- Блок 2: текст + фото про голод и карточки -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;align-items:center;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;"><span style="color:var(--red);">125 граммов</span> хлеба</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Зимой 1941–1942 годов нормы выдачи хлеба снизили до предела. Иждивенцы и дети получали всего <strong style="color:var(--red);">125 граммов</strong> в сутки — кусочек, смешанный с целлюлозой, жмыхом и обойной пылью. Рабочие получали 250 граммов. Люди умирали прямо на улицах от голода и холода.
+        </p>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:12px;line-height:1.05;">«Дорога <span style="color:var(--red);">жизни</span>»</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:12px;">
+          Единственной связью с материком стала ледовая трасса через Ладожское озеро — её назвали «Дорогой жизни». Уже 22 ноября 1941 года по льду пошли первые грузовики с мукой. Шофёры ехали с открытыми дверями — чтобы успеть выпрыгнуть, если лёд провалится.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:12px;">
+          За зиму 1941–1942 годов по дороге в город было доставлено около <strong style="color:var(--red);">360 000 тонн</strong> грузов — продовольствие, боеприпасы, топливо. Обратно вывозили раненых, детей, стариков и музейные ценности. Эвакуировано более 550 000 человек.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          Под лёд ушли сотни машин. Немецкая авиация непрерывно бомбила трассу. Но колонна не останавливалась — потому что остановиться значило обречь город на смерть.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <img src="uploads/600px-Leningrad_bread_ration_stamp.png" alt="Продовольственная карточка"
+          style="width:80%;height:auto;max-height:300px;object-fit:contain;filter:sepia(15%) contrast(1.1) brightness(0.75);border:1px solid rgba(204,17,17,0.2);">
+        <div style="text-align:center;">
+          <div style="font-family:'Oswald',sans-serif;font-size:42px;font-weight:700;color:var(--red);line-height:1;">125 г</div>
+          <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gray);">Хлеба в сутки · декабрь 1941</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок 3: фото руин + текст про Петергоф и культуру -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;align-items:center;">
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/600px-Siege_of_Leningrad_IMG_3286.jfif" alt="Разрушенный Петергоф"
+          style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(1.1) brightness(0.55);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.85) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Петергоф в руинах. Немецкая оккупация, 1942.</div>
+      </div>
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">Город не сдался</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Несмотря на голод и обстрелы, Ленинград продолжал жить. Работали заводы, театры, Эрмитаж. В 1942 году в блокадном городе была исполнена Седьмая симфония Шостаковича — по радио её слышал весь мир, в том числе противник.
+        </p>
+        <!-- Ссылка на симфонию -->
+        <a href="https://rutube.ru/video/0a499d3ece020c73d6635648b354f7eb/" target="_blank"
+          style="display:inline-flex;align-items:center;gap:16px;margin-bottom:16px;padding:18px 28px;background:linear-gradient(135deg,rgba(122,10,10,0.35) 0%,rgba(204,17,17,0.15) 100%);border:1px solid rgba(204,17,17,0.5);text-decoration:none;position:relative;overflow:hidden;transition:all 0.3s;"
+          onmouseover="this.style.background='linear-gradient(135deg,rgba(204,17,17,0.4) 0%,rgba(122,10,10,0.3) 100%)';this.style.borderColor='rgba(204,17,17,0.9)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(204,17,17,0.25)'"
+          onmouseout="this.style.background='linear-gradient(135deg,rgba(122,10,10,0.35) 0%,rgba(204,17,17,0.15) 100%)';this.style.borderColor='rgba(204,17,17,0.5)';this.style.transform='none';this.style.boxShadow='none'">
+          <!-- Иконка play в круге -->
+          <span style="width:48px;height:48px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(204,17,17,0.4);">
+            <span style="font-size:18px;color:#fff;margin-left:3px;">▶</span>
+          </span>
+          <!-- Текст -->
+          <span style="display:flex;flex-direction:column;gap:3px;">
+            <span style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#fff;">Седьмая симфония</span>
+            <span style="font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--light);opacity:0.65;">Дмитрий Шостакович · Ленинград, 9 августа 1942</span>
+          </span>
+          <!-- Стрелка -->
+          <span style="margin-left:24px;font-family:'PT Sans',sans-serif;font-size:20px;color:rgba(204,17,17,0.7);">→</span>
+        </a>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          Пригороды Ленинграда были оккупированы и разграблены. Петергоф, Царское Село, Гатчина превратились в руины. Но сам город выстоял.
+        </p>
+      </div>
+    </div>
+
+    <!-- Дневник Тани Савичевой -->
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:start;">
+      <div style="position:relative;">
+        <img src="uploads/Tanya_Savicheva_Diary.jpg" alt="Дневник Тани Савичевой"
+          style="width:100%;height:auto;filter:grayscale(100%) contrast(1.1) brightness(0.7);border:1px solid rgba(204,17,17,0.2);">
+        <div style="margin-top:12px;text-align:center;font-family:'PT Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(204,17,17,0.5);">Дневник Тани Савичевой</div>
+      </div>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.1;">«Савичевы умерли все.<br><span style="color:var(--red);">Осталась одна Таня»</span></div>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.8;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Таня Савичева — ленинградская школьница, которой было 11 лет в начале блокады. В маленькой записной книжке она девятью короткими строчками зафиксировала гибель всей своей семьи: сестры Жени, бабушки, брата Лёки, дяди Васи, дяди Лёши, мамы.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.8;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Последние три записи: «Савичевы умерли». «Умерли все». «Осталась одна Таня». Девочку эвакуировали, но она не пережила войну — умерла в 1944 году от последствий дистрофии и болезней. Ей было 14 лет.
+        </p>
+        <div style="padding:16px 20px;border-left:3px solid var(--red);background:rgba(204,17,17,0.05);">
+          <p style="font-family:'PT Serif',serif;font-style:italic;font-size:15px;color:var(--cream);line-height:1.7;">Дневник Тани стал одним из главных документальных свидетельств на Нюрнбергском процессе и символом блокадного Ленинграда.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок: снятие блокады + фото -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px;align-items:center;margin-top:48px;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">27 января <span style="color:var(--red);">1944</span></h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Блокада была окончательно снята. В этот день над городом прогремел торжественный салют — первый за всё время осады. Люди выходили на улицы и плакали от радости.
+        </p>
+        <div style="padding:16px 20px;border-left:3px solid var(--red);background:rgba(204,17,17,0.05);">
+          <p style="font-family:'PT Serif',serif;font-style:italic;font-size:15px;color:var(--cream);line-height:1.7;">За 872 дня блокады погибло от 800 000 до 1 500 000 ленинградцев. Большинство — от голода.</p>
+        </div>
+      </div>
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/600px-Opasna_eta_storona.jpg" alt="Ликующий Ленинград"
+          style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(1.1) brightness(0.6);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.85) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Ликующий Ленинград. Блокада снята, 1944 год.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── НОВОКУЗНЕЦК И ТЫЛ ─── -->
+  <div style="background:#1a0c0c;padding:64px 60px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:40px;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);">Тыл · Новокузнецк</div>
+      <div style="flex:1;height:1px;background:rgba(204,17,17,0.2);"></div>
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(204,17,17,0.4);">1941–1945</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:20px;">
+          Кузбасс —<br><span style="color:var(--red);">Арсенал Победы</span>
+        </h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.8;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          Новокузнецк стал одним из главных промышленных центров страны в годы войны. Кузнецкий металлургический комбинат работал круглосуточно: каждый третий танк и каждый второй артиллерийский снаряд были сделаны из кузнецкой стали.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.8;color:var(--light);opacity:0.85;">
+          На КМК было эвакуировано оборудование заводов из Запорожья, Днепропетровска, Харькова. Рабочие монтировали станки прямо под открытым небом и тут же начинали выпускать продукцию для фронта. Женщины и подростки заменили мужчин у станков.
+        </p>
+        <div style="margin-top:24px;padding:16px 20px;border-left:3px solid var(--red);background:rgba(204,17,17,0.05);">
+          <p style="font-family:'PT Serif',serif;font-style:italic;font-size:15px;color:var(--cream);line-height:1.7;">«Всё для фронта, всё для победы» — не просто лозунг. Это был режим жизни каждого жителя тыла.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <img src="uploads/саыввпновлено.png" alt="Новокузнецк в годы ВОВ"
+          style="width:100%;height:auto;filter:grayscale(100%) contrast(1.1) brightness(0.7);border:1px solid rgba(204,17,17,0.15);">
+        <img src="uploads/i (13).webp" alt="Эвакуация предприятий"
+          style="width:100%;height:220px;object-fit:cover;filter:grayscale(100%) contrast(1.1) brightness(0.65);border:1px solid rgba(204,17,17,0.15);">
+        <div style="font-family:'PT Serif',serif;font-style:italic;font-size:12px;color:rgba(232,220,200,0.45);text-align:center;">Эвакуация промышленных предприятий на восток · 1941–1942</div>
+      </div>
+    </div>
+
+    <!-- Книги -->
+    <div style="margin-top:56px;" class="reveal">
+      <div class="books-label">Книги этой главы</div>
+      <div class="books-grid">
+        <div class="book-card" onclick="openModal('tyl1')">
+          <div class="book-cover">
+            <img src="uploads/484-0.webp" alt="Блокадная книга" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Блокадная книга</div>
+            <div class="book-meta-author">А. Адамович, Д. Гранин</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('tyl2')">
+          <div class="book-cover">
+            <img src="uploads/1120078-900x900.jpg" alt="Седьмая симфония" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Седьмая симфония</div>
+            <div class="book-meta-author">Т. Цинберг</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('tyl3')">
+          <div class="book-cover">
+            <img src="uploads/orig (4).webp" alt="Радость нашего дома" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Радость нашего дома</div>
+            <div class="book-meta-author">М. Карим</div>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 5: КУРСКАЯ ДУГА ─── -->
+<section id="ch5" class="chapter" style="background:#180b0b;">
+
+  <!-- ГЕРОЙ: диорама Курской битвы -->
+  <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
+    <img src="uploads/i (18).webp" alt="Диорама Курской битвы"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:contrast(1.1) brightness(0.55);z-index:1;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(24,11,11,0.85) 0%,rgba(24,11,11,0.2) 60%),linear-gradient(to top,rgba(24,11,11,0.95) 0%,transparent 45%);z-index:2;"></div>
+
+    <div style="position:absolute;top:40px;left:60px;z-index:5;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Глава V · 5 июля — 23 августа 1943</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--light);opacity:0.6;">50 дней. 6 000 танков. Окончательный перелом.</div>
+    </div>
+
+    <div style="position:absolute;top:40%;left:60px;transform:translateY(-50%);z-index:4;">
+      <h2 style="font-family:'Oswald',sans-serif;font-weight:700;font-size: 148px;text-transform:uppercase;color:#fff;line-height:0.88;letter-spacing:-3px;">
+        <span style="color:var(--red);">Курская</span><br>дуга
+      </h2>
+      <div style="margin-top:20px;font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--light);opacity:0.75;max-width:440px;line-height:1.6;">
+        Крупнейшее танковое сражение в истории человечества
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:16px;right:60px;font-family:'Oswald',sans-serif;font-weight:700;font-size: 200px;color:#fff;opacity:0.04;line-height:1;letter-spacing:-6px;z-index:2;pointer-events:none;">1943</div>
+  </div>
+
+  <!-- ПАНОРАМА: вторая диорама -->
+  <div style="position:relative;width:100%;height:400px;overflow:hidden;">
+    <img src="uploads/i (19).webp" alt="Курская битва — диорама"
+      style="width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:contrast(1.05) brightness(0.65);">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(24,11,11,0.7) 0%,transparent 30%,transparent 70%,rgba(24,11,11,0.8) 100%);"></div>
+    <div style="position:absolute;bottom:20px;right:48px;font-family:'PT Serif',serif;font-style:italic;font-size:12px;color:rgba(232,220,200,0.4);">Диорама «Огненная дуга» · Белгород</div>
+  </div>
+
+  <!-- ТЕКСТ + ФОТО -->
+  <div style="background:#160909;padding:64px 60px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:40px;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);">Прохоровское поле</div>
+      <div style="flex:1;height:1px;background:rgba(204,17,17,0.2);"></div>
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(204,17,17,0.4);">12 июля 1943</div>
+    </div>
+
+    <!-- Блок 1: фото наступления + текст -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:48px;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">Операция <span style="color:var(--red);">«Цитадель»</span></h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          5 июля 1943 года Германия бросила на Курскую дугу лучшие бронетанковые силы — новейшие «Тигры», «Пантеры» и «Фердинанды». Советское командование знало о готовящемся наступлении заранее и подготовило глубокоэшелонированную оборону глубиной до 300 километров.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          Немцы рассчитывали прорвать фронт за несколько дней. Вместо этого они потеряли инициативу навсегда. После Курской дуги Германия не провела ни одной крупной наступательной операции на Восточном фронте.
+        </p>
+      </div>
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/i (16).webp" alt="Советские танки в наступлении"
+          style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(1.15) brightness(0.6);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.8) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Советские танки Т-34 идут в наступление. Курское направление, 1943.</div>
+      </div>
+    </div>
+
+    <!-- Блок 2: текст + фото танкового сражения -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:48px;">
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/i (17).webp" alt="Танковое сражение под Прохоровкой"
+          style="width:100%;height:100%;object-fit:cover;object-position:center;filter:contrast(1.1) brightness(0.65);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.8) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Прохоровское поле. 12 июля 1943 — крупнейшее встречное танковое сражение.</div>
+      </div>
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">Прохоровка — <span style="color:var(--red);">12 июля</span></h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          На небольшом поле у деревни Прохоровка сошлись около <strong style="color:var(--red);">1 200 танков</strong> с обеих сторон. Бой шёл весь день — танки стреляли в упор, давили друг друга. Горело всё.
+        </p>
+        <div style="padding:16px 20px;border-left:3px solid var(--red);background:rgba(204,17,17,0.05);">
+          <p style="font-family:'PT Serif',serif;font-style:italic;font-size:15px;color:var(--cream);line-height:1.7;">«Земля стонала и дрожала. Небо почернело от дыма. Это был ад.» — из воспоминаний участника сражения</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок 3: победа + фото -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:56px;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;"><span style="color:var(--red);">Победа</span> на Курской дуге</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          23 августа 1943 года советские войска освободили Харьков — последний крупный город, захваченный немцами в ходе Курской операции. Стратегическая инициатива окончательно перешла к СССР.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          В честь победы под Курском 5 августа 1943 года в Москве был дан первый в истории войны артиллерийский салют. Отныне победный путь вёл только на запад — к Берлину.
+        </p>
+      </div>
+      <div style="position:relative;overflow:hidden;height:300px;">
+        <img src="uploads/c766aa88616e3c8b542e579d022e933e.jpg" alt="Победа под Курском"
+          style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(1.2) brightness(0.65);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.8) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Подбитый немецкий танк. Советский солдат на броне. Курск, 1943.</div>
+      </div>
+    </div>
+
+    <!-- Книги -->
+    <div class="reveal">
+      <div class="books-label">Книги этой главы</div>
+      <div class="books-grid">
+        <div class="book-card" onclick="openModal('kursk1')">
+          <div class="book-cover">
+            <img src="uploads/1005840442.jpg" alt="Курская дуга" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Курская дуга</div>
+            <div class="book-meta-author">В. Кондратенко</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('kursk2')">
+          <div class="book-cover">
+            <img src="uploads/S600xU_2x.webp" alt="Танки идут ромбом" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Танки идут ромбом</div>
+            <div class="book-meta-author">А. Ананьев</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('kursk3')">
+          <div class="book-cover">
+            <img src="uploads/127152.jpg" alt="Батальоны просят огня" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Батальоны просят огня</div>
+            <div class="book-meta-author">Ю. Бондарев</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ГЛАВА 6: БЕРЛИН. ПОБЕДА ─── -->
+<section id="ch6" class="chapter" style="background:#180b0b;">
+
+  <!-- ГЕРОЙ: диорама штурма Берлина -->
+  <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
+    <img src="uploads/i (23).webp" alt="Диорама штурма Берлина"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:contrast(1.05) brightness(0.5);z-index:1;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(24,11,11,0.88) 0%,rgba(24,11,11,0.2) 60%),linear-gradient(to top,rgba(24,11,11,0.95) 0%,transparent 45%);z-index:2;"></div>
+
+    <div style="position:absolute;top:40px;left:60px;z-index:5;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Глава VI · апрель–май 1945</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--light);opacity:0.6;">16 апреля — 9 мая 1945</div>
+    </div>
+
+    <div style="position:absolute;top:40%;left:60px;transform:translateY(-50%);z-index:4;">
+      <h2 style="font-family:'Oswald',sans-serif;font-weight:700;font-size: 148px;text-transform:uppercase;color:#fff;line-height:0.88;letter-spacing:-3px;">
+        <span style="color:var(--red);">Берлин.</span><br>Победа.
+      </h2>
+      <div style="margin-top:20px;font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--light);opacity:0.75;max-width:440px;line-height:1.6;">
+        1 418 дней войны. И этот день — последний.
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:16px;right:60px;font-family:'Oswald',sans-serif;font-weight:700;font-size: 200px;color:#fff;opacity:0.04;line-height:1;letter-spacing:-6px;z-index:2;pointer-events:none;">1945</div>
+  </div>
+
+  <!-- ЗНАМЯ ПОБЕДЫ -->
+  <div style="position:relative;width:100%;overflow:hidden;">
+    <img src="uploads/c129fc68e9a63420c6a68c0b384a31c9.jpg" alt="Знамя Победы над Рейхстагом"
+      style="width:100%;height:520px;object-fit:cover;object-position:center 30%;filter:grayscale(100%) contrast(1.2) brightness(0.6);">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(24,11,11,0.6) 0%,transparent 40%,transparent 60%,rgba(24,11,11,0.6) 100%),linear-gradient(to bottom,rgba(24,11,11,0.5) 0%,transparent 20%,transparent 80%,rgba(24,11,11,0.9) 100%);"></div>
+    <!-- Текст поверх фото -->
+    <div style="position:absolute;bottom:48px;left:60px;right:60px;z-index:3;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;">
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size: 72px;font-weight:700;text-transform:uppercase;color:#fff;line-height:0.9;letter-spacing:-2px;margin-bottom:16px;">
+          Знамя<br><span style="color:var(--red);">Победы</span>
+        </div>
+        <p style="font-family:'PT Serif',serif;font-style:italic;font-size:16px;color:var(--light);opacity:0.8;line-height:1.6;">
+          30 апреля 1945 года. Советские солдаты водружают Красное знамя над горящим Рейхстагом. Фотография Евгения Халдея облетит весь мир.
+        </p>
+      </div>
+      <div style="padding:20px 24px;border-left:3px solid var(--red);background:rgba(24,11,11,0.7);">
+        <p style="font-family:'PT Serif',serif;font-style:italic;font-size:17px;color:var(--cream);line-height:1.7;">«Мы дошли. Мы сделали это. Над Берлином — наш флаг.»</p>
+        <div style="margin-top:12px;font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);">30 апреля 1945 · Берлин · Рейхстаг</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ТЕКСТ + КАРТИНЫ -->
+  <div style="background:#160909;padding:64px 60px;">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:48px;">
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--red);">Штурм Берлина</div>
+      <div style="flex:1;height:1px;background:rgba(204,17,17,0.2);"></div>
+      <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(204,17,17,0.4);">16 апреля — 2 мая 1945</div>
+    </div>
+
+    <!-- Блок 1: картина + текст -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:48px;">
+      <div style="position:relative;overflow:hidden;height:360px;">
+        <img src="uploads/_._._._1945._2014_._._._150_200_.jpg" alt="Берлин 1945 — живопись"
+          style="width:100%;height:100%;object-fit:cover;object-position:center;filter:contrast(1.05) brightness(0.7);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.8) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">«Берлин. 1945» · 2014. Советские солдаты и дети у Рейхстага.</div>
+      </div>
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;">Путь длиной <span style="color:var(--red);">1 418 дней</span></h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          16 апреля 1945 года началась Берлинская операция — одна из крупнейших в истории. Более 2,5 миллиона советских солдат, 6 000 танков и 7 500 самолётов двигались к столице Третьего рейха.
+        </p>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;">
+          2 мая 1945 года берлинский гарнизон капитулировал. В ночь с 8 на 9 мая в пригороде Берлина был подписан Акт о безоговорочной капитуляции Германии. Война в Европе закончилась.
+        </p>
+      </div>
+    </div>
+
+    <!-- Блок 2: парад + текст -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:56px;">
+      <div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:16px;line-height:1.05;"><span style="color:var(--red);">9 мая</span> — День Победы</h3>
+        <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.85;color:var(--light);opacity:0.85;margin-bottom:16px;">
+          В 2:10 ночи по московскому времени 9 мая 1945 года диктор Юрий Левитан зачитал по радио сообщение о победе. По всей стране люди выходили на улицы — плакали, обнимались, кричали от радости.
+        </p>
+        <div style="padding:16px 20px;border-left:3px solid var(--red);background:rgba(204,17,17,0.05);margin-bottom:16px;">
+          <p style="font-family:'PT Serif',serif;font-style:italic;font-size:15px;color:var(--cream);line-height:1.7;">«Великая Отечественная война, которую вёл советский народ против немецко-фашистских захватчиков, победоносно завершена. Германия полностью разгромлена.»</p>
+          <div style="margin-top:8px;font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:2px;color:var(--red);">Юрий Левитан · 9 мая 1945, 02:10</div>
+        </div>
+      </div>
+      <div style="position:relative;overflow:hidden;height:340px;">
+        <img src="uploads/i (20).webp" alt="Парад победителей у Рейхстага"
+          style="width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(100%) contrast(1.15) brightness(0.6);">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(22,9,9,0.8) 0%,transparent 50%);"></div>
+        <div style="position:absolute;bottom:12px;left:12px;right:12px;font-family:'PT Serif',serif;font-style:italic;font-size:11px;color:var(--light);opacity:0.7;">Парад советских войск у Рейхстага. Берлин, май 1945.</div>
+      </div>
+    </div>
+
+    <!-- Книги -->
+    <div class="reveal">
+      <div class="books-label">Книги этой главы</div>
+      <div class="books-grid">
+        <div class="book-card" onclick="openModal('berlin1')">
+          <div class="book-cover">
+            <img src="uploads/1010337118.jpg" alt="Звезда" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Звезда</div>
+            <div class="book-meta-author">Э. Казакевич</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('berlin2')">
+          <div class="book-cover">
+            <img src="uploads/i (24).webp" alt="Весна на Одере" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Весна на Одере</div>
+            <div class="book-meta-author">Э. Казакевич</div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openModal('berlin3')">
+          <div class="book-cover">
+            <img src="uploads/2026-04-29_15-28-22.png" alt="Берлин, май 1945" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="book-hover-overlay"><span class="book-hover-text">Подробнее</span></div>
+          </div>
+          <div class="book-meta">
+            <div class="book-meta-title">Берлин, май 1945</div>
+            <div class="book-meta-author">Е. Ржевская</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="chapter-divider"></div>
+
+<section id="epilogue">
+  <div class="epilogue-star">★</div>
+  <h2 class="epilogue-title">Мы помним</h2>
+  <p class="epilogue-sub">Каждая прочитанная книга — это нить памяти, которая связывает нас с теми, кто отдал жизнь за нашу свободу.</p>
+  <div class="epilogue-stats">
+    <div class="stat-item">
+      <div class="stat-num">27М</div>
+      <div class="stat-label">Погибших</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1418</div>
+      <div class="stat-label">Дней войны</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">81</div>
+      <div class="stat-label">Годовщина Победы</div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"></div>
+
+<!-- ─── ФИНАЛЬНЫЙ БЛОК: ВЫСОЦКИЙ + ВОЛИГАМСИ ─── -->
+<section id="vysotsky-block" style="position:relative;height:100vh;overflow:hidden;background:var(--bg);display:grid;grid-template-columns:1fr 1fr;">
+
+  <!-- ══════════ ЛЕВАЯ КОЛОНКА: Стихотворение ══════════ -->
+  <div style="display:flex;flex-direction:column;justify-content:center;padding:0 64px 0 64px;background:var(--bg);position:relative;overflow:hidden;">
+
+    <div style="position:relative;z-index:1;">
+
+      <!-- Автор + тонкая линия -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+        <div style="width:32px;height:1px;background:var(--red);opacity:0.7;"></div>
+        <div style="font-family:'PT Sans',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--red);opacity:0.8;">Владимир Высоцкий</div>
+      </div>
+
+      <!-- Заголовок -->
+      <div style="position:relative;margin-bottom:36px;">
+        <div style="font-family:'Oswald',sans-serif;font-size: 80px;font-weight:700;text-transform:uppercase;color:#fff;line-height:0.9;letter-spacing:-2px;">Песня о звёздах</div>
+        <div style="margin-top:14px;height:2px;width:100%;background:linear-gradient(to right, var(--red) 0%, transparent 100%);"></div>
+      </div>
+
+      <!-- Строфы с номерами -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="font-family:'Oswald',sans-serif;font-size:11px;color:var(--red);opacity:0.4;letter-spacing:2px;padding-top:4px;flex-shrink:0;width:16px;">I</div>
+          <p style="font-family:'PT Serif',serif;font-size: 18px;line-height:1.95;color:var(--cream);font-style:italic;margin:0;">
+            Мне этот бой не забыть нипочём.<br>
+            Смертью пропитан воздух,<br>
+            А с небосклона бесшумным дождём<br>
+            <span style="color:var(--cream);">Падали звёзды.</span>
+          </p>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="font-family:'Oswald',sans-serif;font-size:11px;color:var(--red);opacity:0.4;letter-spacing:2px;padding-top:4px;flex-shrink:0;width:16px;">II</div>
+          <p style="font-family:'PT Serif',serif;font-size: 18px;line-height:1.95;color:var(--cream);font-style:italic;margin:0;">
+            Вон снова упала, и я загадал:<br>
+            Выйти живым из боя...<br>
+            Так свою жизнь я поспешно связал<br>
+            <span style="color:var(--cream);">С глупой звездою.</span>
+          </p>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="font-family:'Oswald',sans-serif;font-size:11px;color:var(--red);opacity:0.4;letter-spacing:2px;padding-top:4px;flex-shrink:0;width:16px;">III</div>
+          <p style="font-family:'PT Serif',serif;font-size: 18px;line-height:1.95;color:var(--cream);font-style:italic;margin:0;">
+            Я уж решил: миновала беда<br>
+            И удалось отвертеться...<br>
+            Но с неба свалилась шальная звезда<br>
+            <span style="color:var(--cream);">Прямо под сердце...</span>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ ПРАВАЯ КОЛОНКА: Картина на всю высоту ══════════ -->
+  <div style="position:relative;overflow:hidden;">
+    <img src="uploads/rQgVeeb38B-UjJJdxrw4quPz7pU4fNJGENeMxyRznghWUJqsZwtOyva0xyK4tCT2FECX9k5Hd0ozbmZ5iRdHrjDY.jpg"
+      alt="Ринат Волигамси — Сумерки. Большая медведица"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+    <!-- Подпись на картине -->
+    <div style="position:absolute;bottom:20px;right:20px;z-index:2;font-family:'PT Serif',serif;font-style:italic;font-size:11px;letter-spacing:1px;color:rgba(232,220,200,0.4);">Ринат Волигамси · «Сумерки. Большая медведица»</div>
+  </div>
+
+</section>
+
+<style>
+@keyframes poemStarTwinkle {
+  0%,100% { opacity:0; transform:scale(0.5); }
+  50% { opacity:0.85; transform:scale(1); }
+}
+</style>
+
+<!-- ─── ПОДВАЛ ─── -->
+<div style="background:var(--bg3);padding:24px 64px;text-align:center;border-top:1px solid rgba(204,17,17,0.15);">
+  <div style="font-family:'PT Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(204,17,17,0.4);">Научно-техническая библиотека СибГИУ · Интерактивная книжная выставка · 9 мая 2026</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-cover">
+      <div id="modalCoverInner" style="width:100%;height:100%;min-height:360px;background:linear-gradient(135deg,#2a1515,#0d0808);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:'PT Serif',serif;font-style:italic;color:rgba(232,220,200,0.3);font-size:14px;">обложка</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-genre" id="modalGenre">Документальная проза</div>
+      <h3 class="modal-title" id="modalTitle">Брестская крепость</h3>
+      <div class="modal-author" id="modalAuthor">Сергей Смирнов · 1957</div>
+      <div class="modal-divider"></div>
+      <p class="modal-desc" id="modalDesc">
+        Документальная книга о героической обороне Брестской крепости в первые дни войны. Смирнов восстановил имена защитников, которые долгие годы были неизвестны. Книга вернула из небытия сотни героев.
+      </p>
+      <div class="modal-quote">
+        <p id="modalQuote">«Я не сдамся. Буду биться до последнего»</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── ЗВЁЗДЫ В БЛОКЕ ВЫСОЦКОГО ───
+const poemStars = document.getElementById('poem-stars');
+if (poemStars) {
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.style.cssText = `
+      position:absolute;
+      width:${1 + Math.random() * 2}px;
+      height:${1 + Math.random() * 2}px;
+      border-radius:50%;
+      background:#fff;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 100}%;
+      animation:twinkle ${2 + Math.random() * 4}s ${Math.random() * 4}s infinite;
+      --max-op:${0.3 + Math.random() * 0.7};
+    `;
+    poemStars.appendChild(s);
+  }
+}
+
+// ─── ЗВЁЗДЫ ───
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.setProperty('--d', (2 + Math.random() * 4) + 's');
+  s.style.setProperty('--delay', (Math.random() * 4) + 's');
+  s.style.setProperty('--max-op', (0.2 + Math.random() * 0.5) + '');
+  starsEl.appendChild(s);
+}
+
+// ─── ПРОГРЕСС-БАР ───
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+
+// ─── АНИМАЦИЯ БРЕСТ-ЗАГОЛОВКА ───
+const brestTitle = document.querySelector('.brest-main-title');
+const brestObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      brestTitle.classList.add('risen');
+      brestObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+if (brestTitle) brestObs.observe(document.getElementById('ch1'));
+
+// ─── REVEAL ON SCROLL ───
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
+reveals.forEach(r => obs.observe(r));
+
+// Fallback: показать все если Observer не работает
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(r => r.classList.add('visible'));
+}, 1200);
+
+// ─── НАВИГАЦИЯ ───
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ─── МОДАЛКИ ───
+const books = {
+  brest1: {
+    genre: 'Документальная проза',
+    title: 'Брестская крепость',
+    author: 'Сергей Смирнов · 1957',
+    desc: 'Документальная книга о героической обороне Брестской крепости в первые дни войны. Смирнов восстановил имена защитников, которые долгие годы оставались безвестными. Книга вернула из небытия сотни героев.',
+    quote: '«Я умираю, но не сдаюсь. Прощай, Родина. 20.VII.41»',
+    cover: 'uploads/i (8).webp',
+  },
+  brest2: {
+    genre: 'Военная проза',
+    title: 'В списках не значился',
+    author: 'Борис Васильев · 1974',
+    desc: 'Роман о лейтенанте Николае Плужникове, который почти в одиночку сражался в стенах Брестской крепости до последнего — дольше всех. Он не значился ни в каких списках, но стал символом несломленного духа.',
+    quote: '«Крепость не пала: она просто истекла кровью.»',
+    cover: 'uploads/i (9).webp',
+  },
+  moscow1: {
+    genre: 'Военная проза',
+    title: 'Волоколамское шоссе',
+    author: 'Александр Бек · 1943',
+    desc: 'Роман о панфиловцах — батальоне казахского комбата Баурджана Момыш-улы, державшем оборону на подступах к Москве. Написан по горячим следам событий, почти документально. Один из лучших военных романов о битве за столицу.',
+    quote: '«Отступать — значит умирать. Стоять — значит тоже, может быть, умирать. Но стоять — это победа.»',
+    cover: 'uploads/orig (1).webp',
+  },
+  moscow2: {
+    genre: 'Поэзия',
+    title: 'Зоя',
+    author: 'Маргарита Алигер · 1942',
+    desc: 'Поэма о Зое Космодемьянской — восемнадцатилетней разведчице, казнённой немцами в деревне под Москвой в ноябре 1941 года. Написана сразу после её гибели. За эту поэму Алигер получила Сталинскую премию.',
+    quote: '«Её вели. По снегу, босиком. По снегу, по морозу, по России.»',
+    cover: 'uploads/048050.jpg',
+  },
+  moscow3: {
+    genre: 'Документальная проза',
+    title: 'Повесть о настоящем человеке',
+    author: 'Борис Полевой · 1946',
+    desc: 'История лётчика Алексея Маресьева, сбитого под Москвой зимой 1942 года. Восемнадцать суток он полз по заснеженному лесу к своим. Лишившись обеих ног, вернулся в строй и продолжил воевать.',
+    quote: '«Человек может всё — только захоти.»',
+    cover: 'uploads/orig (2).webp',
+  },
+  stalingrad1: {
+    genre: 'Роман-эпопея',
+    title: 'Жизнь и судьба',
+    author: 'Василий Гроссман · 1960',
+    desc: 'Монументальный роман о Сталинградской битве и о человеке в эпоху тоталитаризма. Рукопись была арестована КГБ — сам председатель КГБ сказал, что книга опаснее ядерной бомбы. Опубликован лишь в 1980-х годах на Западе.',
+    quote: '«Человек жив, пока он человек.»',
+    cover: 'uploads/orig (3).webp',
+  },
+  stalingrad2: {
+    genre: 'Военный роман',
+    title: 'Горячий снег',
+    author: 'Юрий Бондарев · 1970',
+    desc: 'Декабрь 1942-го. Советские артиллеристы останавливают танковый прорыв Манштейна, пытающегося деблокировать окружённую армию Паулюса. Один день боя — и судьба всей Сталинградской операции.',
+    quote: '«Они стояли насмерть — и выстояли.»',
+    cover: 'uploads/cover.jpg',
+  },
+  berlin1: {
+    genre: 'Военная повесть',
+    title: 'Звезда',
+    author: 'Эммануил Казакевич · 1947',
+    desc: 'Повесть о группе разведчиков, уходящих в немецкий тыл накануне финального наступления. Позывной группы — «Звезда». Один из самых пронзительных текстов о войне — о долге, смерти и победе, которую не все доживут увидеть.',
+    quote: '«Звезда» вызывает «Землю». «Земля», я — «Звезда». Приём.»',
+    cover: 'uploads/1010337118.jpg',
+  },
+  berlin2: {
+    genre: 'Военный роман',
+    title: 'Весна на Одере',
+    author: 'Эммануил Казакевич · 1949',
+    desc: 'Роман о последних боях на пути к Берлину — форсировании Одера и освобождении польских городов. Казакевич сам прошёл этот путь. Книга передаёт атмосферу последних недель войны — усталость, надежду и предчувствие победы.',
+    quote: '«Весна шла по освобождённой земле — и пахла порохом и черёмухой.»',
+    cover: 'uploads/i (24).webp',
+  },
+  berlin3: {
+    genre: 'Документальные мемуары',
+    title: 'Берлин, май 1945',
+    author: 'Елена Ржевская · 1967',
+    desc: 'Мемуары военного переводчика, участвовавшей в опознании тела Гитлера в берлинском бункере. Уникальный документальный взгляд — последние дни Берлина изнутри. Один из редчайших женских свидетельских текстов о войне.',
+    quote: '«Война кончилась. Но её эхо не утихнет никогда.»',
+    cover: 'uploads/2026-04-29_15-28-22.png',
+  },
+
+  kursk1: {
+    genre: 'Военный роман',
+    title: 'Курская дуга',
+    author: 'Виктор Кондратенко · 1956',
+    desc: 'Роман участника Курской битвы. Автор сражался на этом направлении и описал события изнутри — бой пехоты, взаимодействие с танками, страх и стойкость советского солдата в крупнейшем танковом сражении войны.',
+    quote: '«Не отступать! — звучат слова. — Перед окопом — Украина, за ним, товарищи, — Москва!»',
+    cover: 'uploads/1005840442.jpg',
+  },
+  kursk2: {
+    genre: 'Военная повесть',
+    title: 'Танки идут ромбом',
+    author: 'Анатолий Ананьев · 1963',
+    desc: 'Повесть о Прохоровском сражении — один день боя глазами советских танкистов. Ананьев сам участвовал в Курской битве. Книга передаёт ужас встречного танкового боя с документальной точностью.',
+    quote: '«Танки шли так плотно, что негде было упасть снаряду, не задев чужой брони.»',
+    cover: 'uploads/S600xU_2x.webp',
+  },
+  kursk3: {
+    genre: 'Военная повесть',
+    title: 'Батальоны просят огня',
+    author: 'Юрий Бондарев · 1957',
+    desc: 'Повесть о форсировании Днепра осенью 1943 года — сразу после Курской победы. Два батальона захватывают плацдарм и ждут обещанной поддержки, которая не приходит. Беспощадная правда о цене победы.',
+    quote: '«Батальоны просят огня. Огня нет. Держитесь.»',
+    cover: 'uploads/127152.jpg',
+  },
+  tyl1: {
+    genre: 'Документальная проза',
+    title: 'Блокадная книга',
+    author: 'Алесь Адамович, Даниил Гранин · 1979',
+    desc: 'Документальная книга на основе сотен интервью с выжившими жителями блокадного Ленинграда. Голоса живых свидетелей — без прикрас. Самое полное и честное свидетельство о блокаде, какое только существует.',
+    quote: '«Человек может вынести невыносимое — если рядом есть другой человек.»',
+    cover: 'uploads/484-0.webp',
+  },
+  tyl2: {
+    genre: 'Повесть',
+    title: 'Седьмая симфония',
+    author: 'Тамара Цинберг · 1964',
+    desc: 'Повесть о девочке Кате, которая в блокадном Ленинграде находит маленького мальчика и спасает его ценой последних сил. История о детях войны, о человечности и чуде — на фоне исполнения симфонии Шостаковича.',
+    quote: '«Музыка звучала, и это значило — город жив.»',
+    cover: 'uploads/1120078-900x900.jpg',
+  },
+  tyl3: {
+    genre: 'Повесть',
+    title: 'Радость нашего дома',
+    author: 'Мустай Карим · 1951',
+    desc: 'Повесть башкирского поэта о военном детстве. Башкирская семья принимает украинскую девочку-беженку. История о доброте, дружбе народов и том, как тыловая деревня жила в годы войны — ждала, работала, надеялась.',
+    quote: '«Война разлучила людей — но она же научила их держаться друг за друга.»',
+    cover: 'uploads/orig (4).webp',
+  },
+  stalingrad3: {
+    genre: 'Военная повесть',
+    title: 'В окопах Сталинграда',
+    author: 'Виктор Некрасов · 1946',
+    desc: 'Повесть написана участником битвы. Окопная правда без пафоса и прикрас — изнутри, от первого лица. Первое произведение Некрасова мгновенно получило Сталинскую премию и стало классикой военной прозы.',
+    quote: '«Война — это прежде всего грязь, кровь, боль и страх смерти.»',
+    cover: 'uploads/i (12).webp',
+  },
+};
+
+function openModal(id) {
+  const b = books[id];
+  if (!b) return;
+  document.getElementById('modalGenre').textContent = b.genre;
+  document.getElementById('modalTitle').textContent = b.title;
+  document.getElementById('modalAuthor').textContent = b.author;
+  document.getElementById('modalDesc').textContent = b.desc;
+  document.getElementById('modalQuote').textContent = b.quote;
+  const coverEl = document.getElementById('modalCoverInner');
+  if (b.cover) {
+    coverEl.innerHTML = '<img src="' + b.cover + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;">';
+    coverEl.style.background = 'none';
+  } else {
+    coverEl.innerHTML = '<span style="font-family:PT Serif,serif;font-style:italic;color:rgba(232,220,200,0.3);font-size:14px;">обложка</span>';
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── TWEAKS ───
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') {
+    document.getElementById('tweaksPanel').style.display = 'block';
+  }
+  if (e.data?.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaksPanel').style.display = 'none';
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+
+<!-- Tweaks panel (minimal) -->
+<div id="tweaksPanel" style="display:none;position:fixed;bottom:24px;right:24px;background:#1a0f0f;border:1px solid rgba(204,17,17,0.3);padding:20px 24px;z-index:3000;min-width:220px;">
+  <div style="font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+    Tweaks
+    <button onclick="document.getElementById('tweaksPanel').style.display='none';window.parent.postMessage({type:'__edit_mode_dismissed'},'*')" style="background:none;border:none;color:#888;cursor:pointer;font-size:16px;">✕</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <label style="font-family:'PT Sans',sans-serif;font-size:12px;color:#888;letter-spacing:1px;">
+      Зернистость
+      <input type="range" min="0" max="0.7" step="0.05" value="0.35" oninput="document.body.style.setProperty('--grain-op',this.value)" style="width:100%;margin-top:4px;accent-color:var(--red)">
+    </label>
+    <label style="font-family:'PT Sans',sans-serif;font-size:12px;color:#888;letter-spacing:1px;">
+      Акцент цвет
+      <input type="color" value="#cc1111" oninput="document.documentElement.style.setProperty('--red',this.value)" style="width:100%;height:28px;margin-top:4px;background:none;border:none;cursor:pointer;">
+    </label>
+  </div>
+</div>
+
+
+</body>
+</html>
