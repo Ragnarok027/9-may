@@ -1224,17 +1224,34 @@
     /* ─── ИНЛАЙН СЕКЦИИ: шрифты заголовков ─── */
     [style*="font-size: 160px"],
     [style*="font-size:160px"],
-    [style*="font-size: 130px"],
-    [style*="font-size:130px"],
+    [style*="font-size: 170px"],
+    [style*="font-size:170px"],
+    [style*="font-size: 180px"],
+    [style*="font-size:180px"],
     [style*="font-size: 148px"],
     [style*="font-size:148px"],
+    [style*="font-size: 130px"],
+    [style*="font-size:130px"],
+    [style*="font-size: 120px"],
+    [style*="font-size:120px"],
+    [style*="font-size: 110px"],
+    [style*="font-size:110px"],
+    [style*="font-size: 100px"],
+    [style*="font-size:100px"],
     [style*="font-size: 96px"],
     [style*="font-size:96px"],
     [style*="font-size: 80px"],
     [style*="font-size:80px"],
     [style*="font-size: 72px"],
     [style*="font-size:72px"] {
-      font-size: 32px !important;
+      font-size: 28px !important;
+      letter-spacing: -0.5px !important;
+      line-height: 1.1 !important;
+    }
+    /* Дополнительно — через класс h2 внутри секций */
+    section h2,
+    [class*="chapter"] h2 {
+      font-size: 28px !important;
       letter-spacing: -0.5px !important;
       line-height: 1.1 !important;
     }
