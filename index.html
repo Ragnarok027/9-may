@@ -1261,6 +1261,32 @@
       letter-spacing: -0.5px !important;
       line-height: 1.15 !important;
     }
+    /* Контейнер заголовка — убрать transform, прибить к верху */
+    .chapter-hero-title,
+    .chapter-hero-title + div {
+      position: static !important;
+      transform: none !important;
+    }
+    /* Обёртка заголовка — перемещаем к верху */
+    [style*="top:42%"],
+    [style*="top: 42%"],
+    [style*="top:40%"],
+    [style*="top: 40%"],
+    [style*="top:45%"],
+    [style*="top: 45%"],
+    [style*="top:50%"],
+    [style*="top: 50%"] {
+      top: 56px !important;
+      transform: none !important;
+    }
+    /* Метки глав (Глава I · 1941 и т.п.) — скрыть */
+    [style*="top:40px"],
+    [style*="top: 40px"],
+    [style*="top:32px"],
+    [style*="top: 32px"] {
+      display: none !important;
+    }
+    .brest-chapter-label { display: none !important; }
 
     /* ─── ИНЛАЙН СЕКЦИИ: обёртки и паддинги ─── */
     [style*="padding:64px"],
